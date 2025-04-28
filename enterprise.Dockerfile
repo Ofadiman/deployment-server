@@ -7,7 +7,7 @@ ENV PATH="${PATH}:${SPLUNK_HOME}/bin"
 # Update system packages and install missing packages.
 RUN \
 	apt-get update && \
-	apt-get install --yes --no-install-recommends curl ca-certificates && \
+	apt-get install --yes --no-install-recommends curl ca-certificates uuid-runtime && \
 	rm -rf /var/lib/apt/lists/*
 
 # Download splunk and it's sha512 for further verification.

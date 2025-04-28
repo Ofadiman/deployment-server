@@ -1,7 +1,19 @@
 services:
-  standalone:
+  enterprise:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: enterprise.Dockerfile
     ports:
       - 8000:8000
+    volumes:
+      # Mounting docker.sock is required to query docker API from within the container.
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  universal_forwarder:
+    tty: true
+    build:
+      context: .
+      dockerfile: universalforwarder.Dockerfile
+    volumes:
+      # Mounting docker.sock is required to query docker API from within the container.
+      - /var/run/docker.sock:/var/run/docker.sock
