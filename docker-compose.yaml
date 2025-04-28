@@ -1,0 +1,9 @@
+services:
+  standalone:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SPLUNK_DOWNLOAD_URL: "https://download.splunk.com/products/splunk/releases/9.4.0/linux/splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz"
+    ports:
+      - 8000:8000
