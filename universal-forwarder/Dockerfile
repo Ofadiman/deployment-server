@@ -20,6 +20,9 @@ RUN sha512sum --check /splunkforwarder-9.4.2-e9664af3d956-linux-amd64.tgz.sha512
 # Install splunk universal forwarder.
 RUN tar --extract --gzip --file /splunkforwarder-9.4.2-e9664af3d956-linux-amd64.tgz --directory /opt
 
+# Copy local configuration files to customize splunk installation.
+COPY etc "${SPLUNK_HOME}/etc"
+
 # Set working directory to splunk home.
 WORKDIR "${SPLUNK_HOME}"
 
