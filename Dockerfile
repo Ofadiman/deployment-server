@@ -20,8 +20,8 @@ RUN sha512sum --check /splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz.sha512
 # Install splunk.
 RUN tar --extract --gzip --file /splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz --directory /opt
 
-# https://docs.splunk.com/Documentation/Splunk/9.4.1/Troubleshooting/FSLockingIssues
-RUN echo "OPTIMISTIC_ABOUT_FILE_LOCKING=1" > ${SPLUNK_HOME}/etc/splunk-launch.conf
+# Copy local configuration files to customize splunk installation.
+COPY etc "${SPLUNK_HOME}/etc"
 
 # Set working directory to splunk home.
 WORKDIR "${SPLUNK_HOME}"
