@@ -7,12 +7,21 @@ services:
     volumes:
       # Mounting docker.sock is required to query docker API from within the container.
       - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+      start_period: 10s
 
   universal_forwarder:
     tty: true
     deploy:
       mode: replicated
       replicas: 3
+    depends_on:
+      enterprise:
+        condition: service_healthy
     build:
       context: universal-forwarder
     volumes:
