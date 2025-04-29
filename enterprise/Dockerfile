@@ -6,9 +6,9 @@ ENV PATH="${PATH}:${SPLUNK_HOME}/bin"
 
 # Update system packages and install missing packages.
 RUN \
-	apt-get update && \
-	apt-get install --yes --no-install-recommends curl ca-certificates uuid-runtime jq && \
-	rm -rf /var/lib/apt/lists/*
+  apt-get update && \
+  apt-get install --yes --no-install-recommends curl ca-certificates uuid-runtime jq && \
+  rm -rf /var/lib/apt/lists/*
 
 # Download splunk and it's sha512 for further verification.
 RUN curl --output /splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz "https://download.splunk.com/products/splunk/releases/9.4.0/linux/splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz"
@@ -19,6 +19,23 @@ RUN sha512sum --check /splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz.sha512
 
 # Install splunk.
 RUN tar --extract --gzip --file /splunk-9.4.0-6b4ebe426ca6-linux-amd64.tgz --directory /opt
+
+# Add splunk apps for deployment.
+RUN \
+  --mount=type=secret,id=splunkbase_username \
+  --mount=type=secret,id=splunkbase_password \
+  # Login to splunkbase using credentials from docker secrets.
+  curl --silent --output /dev/null --show-error --request POST --url https://splunkbase.splunk.com/api/account:login/ --data "username=$(cat /run/secrets/splunkbase_username)&password=$(cat /run/secrets/splunkbase_password)" --cookie-jar cookie-jar.txt && \
+  # Download apps from splunkbase.
+  curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/1876/releases/7.9.1/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-amazon-web-services-aws_791.tgz && \
+  curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/3088/releases/4.7.3/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-google-cloud-platform_473.tgz && \
+  curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/3110/releases/5.5.0/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-microsoft-cloud-services_550.tgz && \
+  # Unarchive apps to default deployment server repository location.
+  tar --extract --gzip --file /tmp/splunk-add-on-for-amazon-web-services-aws_791.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
+  tar --extract --gzip --file /tmp/splunk-add-on-for-google-cloud-platform_473.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
+  tar --extract --gzip --file /tmp/splunk-add-on-for-microsoft-cloud-services_550.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
+  # Delete cached authentication cookies from the container.
+  rm cookie-jar.txt
 
 # Copy local configuration files to customize splunk installation.
 COPY etc "${SPLUNK_HOME}/etc"

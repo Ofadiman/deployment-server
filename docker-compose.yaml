@@ -2,6 +2,9 @@ services:
   enterprise:
     build:
       context: enterprise
+      secrets:
+        - splunkbase_username
+        - splunkbase_password
     ports:
       - 8000:8000
     volumes:
@@ -27,3 +30,9 @@ services:
     volumes:
       # Mounting docker.sock is required to query docker API from within the container.
       - /var/run/docker.sock:/var/run/docker.sock
+
+secrets:
+  splunkbase_username:
+    file: secrets/splunkbase_username.txt
+  splunkbase_password:
+    file: secrets/splunkbase_password.txt
