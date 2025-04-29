@@ -7,7 +7,7 @@ ENV PATH="${PATH}:${SPLUNK_HOME}/bin"
 # Update system packages and install missing packages.
 RUN \
 	apt-get update && \
-	apt-get install --yes --no-install-recommends curl ca-certificates uuid-runtime && \
+	apt-get install --yes --no-install-recommends curl ca-certificates uuid-runtime jq && \
 	rm -rf /var/lib/apt/lists/*
 
 # Download splunk universal forwarder and it's sha512 for further verification.
@@ -25,5 +25,9 @@ COPY etc "${SPLUNK_HOME}/etc"
 
 # Set working directory to splunk home.
 WORKDIR "${SPLUNK_HOME}"
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["sh", "-c", "splunk start --answer-yes --no-prompt --accept-license && tail --follow ${SPLUNK_HOME}/var/log/splunk/splunkd.log"]
