@@ -10,6 +10,9 @@ services:
 
   universal_forwarder:
     tty: true
+    deploy:
+      mode: replicated
+      replicas: 3
     build:
       context: universal-forwarder
     volumes:
