@@ -1,0 +1,16 @@
+api:
+  dashboard: true
+  insecure: true
+entryPoints:
+  web:
+    address: :80
+log:
+  level: INFO
+ping: {}
+providers:
+  docker:
+    endpoint: tcp://docker_socket_proxy:2375
+    exposedByDefault: false
+  file:
+    filename: /etc/traefik/dynamic.yaml
+    watch: true

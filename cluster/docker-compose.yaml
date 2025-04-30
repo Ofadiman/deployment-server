@@ -1,0 +1,23 @@
+name: cluster
+
+services:
+  traefik:
+    image: traefik:v3.3.6
+    ports:
+      - 3000:80
+    volumes:
+      - ./traefik/dynamic.yaml:/etc/traefik/dynamic.yaml
+      - ./traefik/traefik.yaml:/etc/traefik/traefik.yaml
+
+  docker_socket_proxy:
+    environment:
+      CONTAINERS: 1
+    image: tecnativa/docker-socket-proxy:0.3.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  whoami_1:
+    image: traefik/whoami:v1.11
+
+  whoami_2:
+    image: traefik/whoami:v1.11

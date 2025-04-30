@@ -1,0 +1,20 @@
+http:
+  routers:
+    # http://traefik.docker.localhost:3000/dashboard/#/
+    dashboard:
+      rule: Host(`traefik.docker.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+    # http://whoami.docker.localhost:3000/
+    whoami:
+      rule: Host(`whoami.docker.localhost`)
+      service: whoami
+  services:
+    whoami:
+      loadBalancer:
+        healthCheck:
+          interval: 5s
+          path: /health
+          timeout: 1s
+        servers:
+          - url: http://whoami_1:80
+          - url: http://whoami_2:80
