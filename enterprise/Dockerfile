@@ -30,10 +30,12 @@ RUN \
   curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/1876/releases/7.9.1/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-amazon-web-services-aws_791.tgz && \
   curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/3088/releases/4.7.3/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-google-cloud-platform_473.tgz && \
   curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/3110/releases/5.5.0/download/?origin=sb&lead=true" --output /tmp/splunk-add-on-for-microsoft-cloud-services_550.tgz && \
+  curl --silent --show-error --location --cookie cookie-jar.txt "https://api.splunkbase.splunk.com/api/v2/apps/1924/releases/7.2.1/download/?origin=sb&lead=true" --output /tmp/eventgen_721.tgz && \
   # Unarchive apps to default deployment server repository location.
   tar --extract --gzip --file /tmp/splunk-add-on-for-amazon-web-services-aws_791.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
   tar --extract --gzip --file /tmp/splunk-add-on-for-google-cloud-platform_473.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
   tar --extract --gzip --file /tmp/splunk-add-on-for-microsoft-cloud-services_550.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
+  tar --extract --gzip --file /tmp/eventgen_721.tgz --directory "${SPLUNK_HOME}/etc/deployment-apps" && \
   # Delete cached authentication cookies from the container.
   rm cookie-jar.txt
 
