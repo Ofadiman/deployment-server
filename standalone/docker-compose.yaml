@@ -1,5 +1,7 @@
+name: standalone
+
 services:
-  enterprise:
+  deployment_server:
     build:
       context: enterprise
       secrets:
@@ -22,7 +24,7 @@ services:
       mode: replicated
       replicas: 3
     depends_on:
-      enterprise:
+      deployment_server:
         condition: service_healthy
     build:
       context: universal-forwarder
