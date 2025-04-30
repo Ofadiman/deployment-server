@@ -14,8 +14,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
       timeout: 1s
-      retries: 10
-      start_period: 10s
+      retries: 30
 
   universal_forwarder:
     tty: true
