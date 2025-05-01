@@ -8,7 +8,23 @@ http:
     whoami:
       rule: Host(`whoami.docker.localhost`)
       service: whoami
+    # http://deployment-server-europe.docker.localhost:3000/
+    deployment_server_europe:
+      rule: Host(`deployment-server-europe.docker.localhost`)
+      service: deployment_server_europe
+    # http://deployment-server-usa.docker.localhost:3000/
+    deployment_server_usa:
+      rule: Host(`deployment-server-usa.docker.localhost`)
+      service: deployment_server_usa
   services:
+    deployment_server_europe:
+      loadBalancer:
+        servers:
+          - url: http://deployment_server_europe:8000
+    deployment_server_usa:
+      loadBalancer:
+        servers:
+          - url: http://deployment_server_usa:8000
     whoami:
       loadBalancer:
         healthCheck:
