@@ -16,6 +16,20 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  deployment_server_europe:
+    build:
+      context: ..
+      dockerfile: cluster/enterprise/Dockerfile
+      args:
+        SPLUNK_CONFIGURATION_PATH: cluster/enterprise/deployment-server-europe/etc
+
+  deployment_server_usa:
+    build:
+      context: ..
+      dockerfile: cluster/enterprise/Dockerfile
+      args:
+        SPLUNK_CONFIGURATION_PATH: cluster/enterprise/deployment-server-usa/etc
+
   whoami_1:
     image: traefik/whoami:v1.11
 
