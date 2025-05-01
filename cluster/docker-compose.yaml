@@ -18,17 +18,21 @@ services:
 
   deployment_server_europe:
     build:
-      context: ..
-      dockerfile: cluster/enterprise/Dockerfile
+      context: enterprise
       args:
-        SPLUNK_CONFIGURATION_PATH: cluster/enterprise/deployment-server-europe/etc
+        SPLUNK_CONFIGURATION_PATH: deployment-server-europe/etc
+    volumes:
+      - ./deployment_apps:/opt/splunk/etc/deployment-apps
+      - ./client_events:/opt/splunk/var/log/client_events
 
   deployment_server_usa:
     build:
-      context: ..
-      dockerfile: cluster/enterprise/Dockerfile
+      context: enterprise
       args:
-        SPLUNK_CONFIGURATION_PATH: cluster/enterprise/deployment-server-usa/etc
+        SPLUNK_CONFIGURATION_PATH: deployment-server-usa/etc
+    volumes:
+      - ./deployment_apps:/opt/splunk/etc/deployment-apps
+      - ./client_events:/opt/splunk/var/log/client_events
 
   whoami_1:
     image: traefik/whoami:v1.11
