@@ -1,0 +1,41 @@
+name: leader_follower
+
+services:
+  deployment_server_leader:
+    ports:
+      - 8000:8000
+    build:
+      context: leader
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+
+  deployment_server_usa:
+    ports:
+      - 8001:8000
+    build:
+      context: follower
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+    depends_on:
+      deployment_server_leader:
+        condition: service_healthy
+
+  deployment_server_europe:
+    ports:
+      - 8002:8000
+    build:
+      context: follower
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+    depends_on:
+      deployment_server_leader:
+        condition: service_healthy
