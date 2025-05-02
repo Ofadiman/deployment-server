@@ -10,7 +10,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
       timeout: 1s
-      retries: 30
+      retries: 60
 
   deployment_server_usa:
     ports:
@@ -21,7 +21,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
       timeout: 1s
-      retries: 30
+      retries: 60
     depends_on:
       deployment_server_leader:
         condition: service_healthy
@@ -48,7 +48,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
       timeout: 1s
-      retries: 30
+      retries: 60
     depends_on:
       deployment_server_leader:
         condition: service_healthy
