@@ -69,9 +69,3 @@ services:
       context: universal-forwarder
       args:
         SPLUNK_FORWARDER_CONFIGURATION_PATH: etc/usa
-
-  whoami_1:
-    image: traefik/whoami:v1.11
-
-  whoami_2:
-    image: traefik/whoami:v1.11

@@ -4,10 +4,6 @@ http:
     dashboard:
       rule: Host(`traefik.docker.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
-    # http://whoami.docker.localhost:3000/
-    whoami:
-      rule: Host(`whoami.docker.localhost`)
-      service: whoami
     # http://deployment-server-europe.docker.localhost:3000/
     deployment_server_europe:
       rule: Host(`deployment-server-europe.docker.localhost`)
@@ -25,12 +21,3 @@ http:
       loadBalancer:
         servers:
           - url: http://deployment_server_usa:8000
-    whoami:
-      loadBalancer:
-        healthCheck:
-          interval: 5s
-          path: /health
-          timeout: 1s
-        servers:
-          - url: http://whoami_1:80
-          - url: http://whoami_2:80
