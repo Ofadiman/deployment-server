@@ -5,8 +5,8 @@
 # https://gist.github.com/robin-a-meade/58d60124b88b60816e8349d1e3938615
 set -euo pipefail
 
-rm -rf deployment_apps
-rm -rf client_events
+sudo rm -rf deployment_apps
+sudo rm -rf client_events
 echo "[Success] Deleted deployment_apps and client_events directories."
 
 mkdir deployment_apps
