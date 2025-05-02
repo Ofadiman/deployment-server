@@ -26,6 +26,19 @@ services:
       deployment_server_leader:
         condition: service_healthy
 
+  universal_forwarder_usa:
+    tty: true
+    hostname: usa
+    build:
+      context: universal-forwarder
+      args:
+        SPLUNK_FORWARDER_CONFIGURATION_PATH: etc/usa
+    depends_on:
+      deployment_server_usa:
+        condition: service_healthy
+    deploy:
+      replicas: 2
+
   deployment_server_europe:
     ports:
       - 8002:8000
@@ -39,3 +52,16 @@ services:
     depends_on:
       deployment_server_leader:
         condition: service_healthy
+
+  universal_forwarder_europe:
+    tty: true
+    hostname: usa
+    build:
+      context: universal-forwarder
+      args:
+        SPLUNK_FORWARDER_CONFIGURATION_PATH: etc/europe
+    depends_on:
+      deployment_server_europe:
+        condition: service_healthy
+    deploy:
+      replicas: 2
