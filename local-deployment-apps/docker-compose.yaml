@@ -1,0 +1,13 @@
+name: local_deployment_apps
+
+services:
+  deployment_server:
+    build:
+      context: enterprise
+    ports:
+      - 8000:8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
