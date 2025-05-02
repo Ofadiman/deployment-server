@@ -20,7 +20,7 @@ services:
     build:
       context: enterprise
       args:
-        SPLUNK_CONFIGURATION_PATH: deployment-server-europe/etc
+        SPLUNK_CONFIGURATION_PATH: etc/europe
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
@@ -47,7 +47,7 @@ services:
     build:
       context: enterprise
       args:
-        SPLUNK_CONFIGURATION_PATH: deployment-server-usa/etc
+        SPLUNK_CONFIGURATION_PATH: etc/usa
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 1s
